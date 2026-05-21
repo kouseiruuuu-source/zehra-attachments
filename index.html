@@ -264,7 +264,7 @@
         }
 
         .mobile-perf-toggle.active::after {
-            content: '✓';
+            content: '\2713';
             position: absolute;
             bottom: -2px;
             right: -2px;
@@ -656,7 +656,7 @@
 
         .section-title::before,
         .section-title::after {
-            content: '◆';
+            content: '\25C6';
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -890,6 +890,47 @@
             background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%231a1a1a" width="400" height="250"/><text fill="%23ff6b9d" x="50%" y="50%" text-anchor="middle" font-family="sans-serif" font-size="20">Loading...</text></svg>');
             background-size: cover;
             will-change: transform;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .weapon-image::after {
+            content: '\1F50D Click to view Attachments';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: var(--primary);
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .weapon-card:hover .weapon-image::after {
+            opacity: 1;
+        }
+
+        .view-attach-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.75);
+            color: var(--primary);
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+            font-weight: 600;
+        }
+
+        .weapon-card:hover .view-attach-hint {
+            opacity: 1;
         }
 
         .share-btn {
@@ -1024,12 +1065,12 @@
         }
 
         .code-status::before {
-            content: '✓';
+            content: '\2713';
             font-weight: bold;
         }
 
         .code-status.invalid::before {
-            content: '✗';
+            content: '\2717';
         }
 
         .perks-section {
@@ -1240,7 +1281,7 @@
         }
 
         .special-message::before {
-            content: '❝';
+            content: '\275D';
             position: absolute;
             top: -10px;
             left: 20px;
@@ -1250,7 +1291,7 @@
         }
 
         .special-message::after {
-            content: '❞';
+            content: '\275E';
             position: absolute;
             bottom: -30px;
             right: 20px;
@@ -1481,6 +1522,103 @@
             }
         }
 
+        /* ATTACHMENT MODAL */
+        .attach-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 300;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .attach-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .attach-modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid var(--primary);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .attach-overlay.active .attach-modal {
+            transform: scale(1);
+        }
+
+        .attach-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 107, 157, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .attach-close:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .attach-image {
+            width: 100%;
+            border-radius: 12px;
+            margin: 1rem 0;
+            object-fit: contain;
+            max-height: 500px;
+        }
+
+        .attach-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            padding-right: 3rem;
+        }
+
+        .attach-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .attach-code-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 107, 157, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
         #confetti-canvas {
             position: fixed;
             top: 0;
@@ -1639,6 +1777,13 @@
                 font-size: 0.7rem;
                 padding: 0.5rem 0.8rem;
             }
+            .attach-modal {
+                padding: 1rem;
+                max-height: 95vh;
+            }
+            .attach-image {
+                max-height: 300px;
+            }
         }
 
         .weapon-image {
@@ -1675,7 +1820,7 @@
     <canvas id="confetti-canvas"></canvas>
     
     <button class="mobile-perf-toggle" id="mobilePerfToggle" onclick="toggleMobilePerformance()" title="Mobile Performance Mode (Reduces animations)">
-        🚀
+        &#128640;
     </button>
 
     <div class="bg-animated"></div>
@@ -1694,11 +1839,11 @@
 
     <div class="stats-section">
         <div class="stat-box">
-            <div class="stat-number" id="totalGuns">12</div>
+            <div class="stat-number" id="totalGuns">15</div>
             <div class="stat-label">Total Guns</div>
         </div>
         <div class="stat-box">
-            <div class="stat-number" id="availableCodes">12</div>
+            <div class="stat-number" id="availableCodes">15</div>
             <div class="stat-label">With Codes</div>
         </div>
         <div class="stat-box">
@@ -1709,7 +1854,7 @@
 
     <div class="sticky-header">
         <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for a gun..." autocomplete="off">
+            <input type="text" class="search-input" id="searchInput" placeholder="&#128269; Search for a gun..." autocomplete="off">
         </div>
 
         <div class="categories">
@@ -1719,6 +1864,7 @@
             <button class="category-btn" onclick="filterWeapons('sg', this)">SG</button>
             <button class="category-btn" onclick="filterWeapons('lmg', this)">LMG</button>
             <button class="category-btn" onclick="filterWeapons('sniper', this)">Sniper</button>
+            <button class="category-btn" onclick="filterWeapons('pistol', this)">Pistol</button>
         </div>
     </div>
 
@@ -1745,11 +1891,11 @@
                 <div class="player-card-hint">click to copy</div>
             </div>
         </div>
-        <p class="last-updated">Last updated: April 11, 2025</p>
+        <p class="last-updated">Last updated: May 21, 2026</p>
     </header>
 
     <div class="popular-section" id="popularSection" style="display: none;">
-        <h2 class="section-title">🔥 Most Popular</h2>
+        <h2 class="section-title">&#128293; Most Popular</h2>
         <div class="popular-grid" id="popularGrid"></div>
     </div>
 
@@ -1763,7 +1909,7 @@
 
     <div class="request-section">
         <a href="https://tiktok.com/@sexczehra" class="request-btn" target="_blank">
-            <span>📩</span>
+            <span>&#128231;</span>
             <span>Request Loadout</span>
         </a>
     </div>
@@ -1835,14 +1981,14 @@
     </div>
 
     <div class="special-message">
-        <h3 class="message-title">Reminder <span class="heart">❤</span></h3>
+        <h3 class="message-title">Reminder <span class="heart">&#10084;</span></h3>
         <p class="message-content">"Please be kind to my baby, okay? She's one of the sweetest and most genuine people you'll meet. Just enjoy the stream and spread good vibes"</p>
     </div>
 
     <div class="easter-egg" id="easterEgg">
         <div class="easter-content">
-            <h2>🎉 Secret Message!</h2>
-            <p>lovemybabysm!<br>Support Zehra always! ❤️</p>
+            <h2>&#127881; Secret Message!</h2>
+            <p>lovemybabysm!<br>Support Zehra always! &#10084;&#65039;</p>
             <button class="close-easter" onclick="closeEaster()">Close</button>
         </div>
     </div>
@@ -1850,18 +1996,26 @@
     <div class="bottom-sheet-overlay" id="bottomSheetOverlay" onclick="closeBottomSheet()"></div>
     <div class="bottom-sheet" id="bottomSheet">
         <div class="bottom-sheet-handle"></div>
-        <button class="bottom-sheet-close" onclick="closeBottomSheet()">✕</button>
+        <button class="bottom-sheet-close" onclick="closeBottomSheet()">&#10005;</button>
         <div id="bottomSheetContent"></div>
     </div>
 
+    <!-- Attachment Modal -->
+    <div class="attach-overlay" id="attachOverlay" onclick="closeAttachModal(event)">
+        <div class="attach-modal" onclick="event.stopPropagation()">
+            <button class="attach-close" onclick="closeAttachModal()">&#10005;</button>
+            <div id="attachModalContent"></div>
+        </div>
+    </div>
+
     <div class="toast" id="toast">
-        <span class="toast-icon">✓</span>
+        <span class="toast-icon">&#10003;</span>
         <span id="toastMessage">Code copied to clipboard!</span>
     </div>
 
     <nav class="bottom-nav">
         <a href="#" onclick="showFavoritesPopup(); return false;" title="Favorites">
-            ❤️
+            &#10084;&#65039;
             <span>Saved</span>
         </a>
     </nav>
@@ -1882,10 +2036,44 @@
         // WEAPONS DATA
         const weapons = [
             { 
+                name: "AGR 556", 
+                type: "smg", 
+                code: "1C4C7A8B9B", 
+                image: "https://i.imgur.com/Xa5OUXL.jpg", 
+                attachment: "https://i.imgur.com/TPOxM3j.jpg",
+                isNew: true, 
+                season: "S3",
+                description: "High mobility AR/SMG hybrid",
+                isValid: true
+            },
+            { 
+                name: "OTs 9", 
+                type: "smg", 
+                code: "1B2B4F7D8B", 
+                image: "https://i.imgur.com/S9YlvQL.jpg", 
+                attachment: "https://i.imgur.com/BydGk9i.jpg",
+                isNew: true, 
+                season: "S3",
+                description: "Fast fire rate, close range shredder",
+                isValid: true
+            },
+            { 
+                name: "Machine Pistol", 
+                type: "pistol", 
+                code: "1A2B7D8A9I", 
+                image: "https://i.imgur.com/EeSDBJQ.jpg", 
+                attachment: "https://i.imgur.com/OEH2WoV.jpg",
+                isNew: true, 
+                season: "S3",
+                description: "Full-auto pistol, great backup weapon",
+                isValid: true
+            },
+            { 
                 name: "LW3 - Tundra", 
                 type: "sniper", 
                 code: "1A2B5A8A9E", 
                 image: "https://i.imgur.com/zO34m9w.jpg", 
+                attachment: "https://i.imgur.com/MRXiLkd.jpg",
                 isNew: false, 
                 season: "S1",
                 description: "One-shot sniper, best for quickscoping",
@@ -1896,6 +2084,7 @@
                 type: "smg", 
                 code: "1C2C4A5E8C", 
                 image: "https://i.imgur.com/RInOEvK.jpg", 
+                attachment: "https://imgur.com/Zv1gFdr.jpg",
                 isNew: false, 
                 season: "S1",
                 description: "Fast fire rate, best for aggressive play",
@@ -1906,6 +2095,7 @@
                 type: "sg", 
                 code: "1C2A4A5E6A", 
                 image: "https://i.imgur.com/XZJFvdj.jpg", 
+                attachment: "https://i.imgur.com/WNJRYPC.jpg",
                 isNew: false, 
                 season: "S1",
                 description: "One-shot potential, close range beast",
@@ -1916,6 +2106,7 @@
                 type: "smg", 
                 code: "2D4C5H8D9C", 
                 image: "https://i.imgur.com/Erno6BG.jpg", 
+                attachment: "https://i.imgur.com/SknGaPJ.jpg",
                 isNew: false, 
                 season: "S2",
                 description: "High mobility, great for rushing",
@@ -1926,6 +2117,7 @@
                 type: "ar", 
                 code: "1D3A5E8C9A", 
                 image: "https://i.imgur.com/C0xcrYo.jpg", 
+                attachment: "https://i.imgur.com/Kc38zyH.jpg",
                 isNew: false, 
                 season: "S1",
                 description: "High damage, slow but powerful",
@@ -1936,6 +2128,7 @@
                 type: "smg", 
                 code: "1C2B4A5C9A", 
                 image: "https://i.imgur.com/ww8hBfe.jpg", 
+                attachment: "https://i.imgur.com/VSyhNIN.jpg",
                 isNew: false, 
                 season: "S1",
                 description: "Balanced stats, beginner friendly",
@@ -1946,6 +2139,7 @@
                 type: "lmg", 
                 code: "1C2A5E6A7G", 
                 image: "https://i.imgur.com/dWD66h7.jpg", 
+                attachment: "https://i.imgur.com/0Tb7yh8.jpg",
                 isNew: false, 
                 season: "S2",
                 description: "High capacity, great for holding angles",
@@ -1956,6 +2150,7 @@
                 type: "smg", 
                 code: "1C204A8C9C", 
                 image: "https://i.imgur.com/fHAxC3v.jpg", 
+                attachment: "https://i.imgur.com/Cs4m9cJ.jpg",
                 isNew: false, 
                 season: "S4",
                 description: "Silent killer, great for flanking",
@@ -1966,6 +2161,7 @@
                 type: "lmg", 
                 code: "1C3A4A509A", 
                 image: "https://i.imgur.com/Y0pEedV.jpg", 
+                attachment: "https://i.imgur.com/UDqbcNJ.jpg",
                 isNew: false, 
                 season: "S3",
                 description: "LMG with AR mobility",
@@ -1976,6 +2172,7 @@
                 type: "ar", 
                 code: "1B2C7E8E9F", 
                 image: "https://i.imgur.com/pZvlfwr.jpg", 
+                attachment: "https://i.imgur.com/YorqlCv.jpg",
                 isNew: false, 
                 season: "S3",
                 description: "Fast ADS, aggressive AR playstyle",
@@ -1986,6 +2183,7 @@
                 type: "smg", 
                 code: "1C2C4B7CBA", 
                 image: "https://i.imgur.com/it3MNuk.jpg", 
+                attachment: "https://i.imgur.com/iyoJjF2.jpg",
                 isNew: false, 
                 season: "S3",
                 description: "Unique burst fire, high damage",
@@ -1996,6 +2194,7 @@
                 type: "ar", 
                 code: "1B2C4B5A8B", 
                 image: "https://i.imgur.com/5AzfLTL.jpg", 
+                attachment: "https://i.imgur.com/HoToDdL.jpg",
                 isNew: false, 
                 season: "S2",
                 description: "Versatile AR, good at all ranges",
@@ -2056,6 +2255,15 @@
                     document.body.classList.remove('dark-mode');
                 }
             });
+
+            // Close attachment modal on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeAttachModal();
+                    closeBottomSheet();
+                    closeEaster();
+                }
+            });
         });
 
         function createParticles() {
@@ -2081,7 +2289,7 @@
             for(let i = 0; i < 5; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart-bg';
-                heart.innerHTML = '❤';
+                heart.innerHTML = '&#10084;';
                 heart.style.left = Math.random() * 100 + '%';
                 heart.style.animationDelay = Math.random() * 12 + 's';
                 heart.style.animationDuration = (8 + Math.random() * 8) + 's';
@@ -2112,7 +2320,7 @@
                     card.innerHTML = `
                         <div class="rank-badge rank-${index + 1}">#${index + 1}</div>
                         <h3>${weapon.name}</h3>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">${favoriteCounts[weapon.name] || 0} ❤️</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">${favoriteCounts[weapon.name] || 0} &#10084;&#65039;</p>
                         <p style="color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem;">${weapon.type.toUpperCase()}</p>
                     `;
                     grid.appendChild(card);
@@ -2127,7 +2335,7 @@
             weaponsToRender.forEach((weapon, index) => {
                 const card = document.createElement('div');
                 card.className = 'weapon-card';
-                card.style.animationDelay = index * 0.05 + 's'; // Reduced delay for faster render
+                card.style.animationDelay = index * 0.05 + 's';
                 card.dataset.index = index;
                 card.dataset.name = weapon.name;
                 
@@ -2142,23 +2350,28 @@
                 
                 const imgFallback = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect fill='%231a1a1a' width='400' height='250'/><text fill='%23ff6b9d' x='50%' y='50%' text-anchor='middle' font-family='sans-serif' font-size='20'>${encodeURIComponent(weapon.name)}</text></svg>`;
                 
+                const hasAttach = weapon.attachment ? `<div class="view-attach-hint">&#128269; Click to view Attachments</div>` : '';
+                
                 card.innerHTML = `
                     ${newBadge}
                     ${seasonBadge}
                     <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${weapon.name}', this)" title="Add to favorites">
-                        ${isFav ? '❤️' : '🤍'}
+                        ${isFav ? '&#10084;&#65039;' : '&#129293;'}
                     </button>
                     <button class="share-btn" onclick="event.stopPropagation(); shareWeapon('${weapon.name}', '${weapon.code}')" title="Share">
-                        📤
+                        &#128228;
                     </button>
-                    <div class="swipe-hint left">←</div>
-                    <div class="swipe-hint right">→</div>
-                    <img src="${displayImage}" 
-                         alt="${weapon.name}" 
-                         class="weapon-image" 
-                         onerror="this.onerror=null; this.src='${imgFallback}';"
-                         loading="lazy"
-                         decoding="async">
+                    <div class="swipe-hint left">&larr;</div>
+                    <div class="swipe-hint right">&rarr;</div>
+                    <div style="position: relative;" onclick="event.stopPropagation(); openAttachModal('${weapon.name}')">
+                        <img src="${displayImage}" 
+                             alt="${weapon.name}" 
+                             class="weapon-image" 
+                             onerror="this.onerror=null; this.src='${imgFallback}';"
+                             loading="lazy"
+                             decoding="async">
+                        ${hasAttach}
+                    </div>
                     <div class="weapon-info">
                         <div class="weapon-type">${weapon.type.toUpperCase()}</div>
                         <h3 class="weapon-name">${weapon.name}</h3>
@@ -2175,15 +2388,60 @@
                     </div>
                 `;
                 
-                // Click to open bottom sheet - but NOT for category filtering
+                // Click card to open bottom sheet (but NOT for image/button clicks)
                 card.addEventListener('click', (e) => {
-                    // Don't open if clicking buttons
-                    if (e.target.closest('button')) return;
+                    // Don't open if clicking buttons or image
+                    if (e.target.closest('button') || e.target.closest('.weapon-image') || e.target.closest('.view-attach-hint')) return;
                     openBottomSheet(weapon);
                 });
                 
                 grid.appendChild(card);
             });
+        }
+
+        // ATTACHMENT MODAL FUNCTIONS
+        function openAttachModal(weaponName) {
+            const weapon = weapons.find(w => w.name === weaponName);
+            if (!weapon || !weapon.attachment) {
+                showToast('No attachment image available');
+                return;
+            }
+            
+            const overlay = document.getElementById('attachOverlay');
+            const content = document.getElementById('attachModalContent');
+            
+            content.innerHTML = `
+                <div class="attach-title">${weapon.name}</div>
+                <div class="attach-subtitle">${weapon.type.toUpperCase()} &bull; ${weapon.season} &bull; Attachment Build</div>
+                <img src="${weapon.attachment}" 
+                     alt="${weapon.name} Attachments" 
+                     class="attach-image"
+                     onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
+                     loading="lazy">
+                <div style="display: none; text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <p>Failed to load attachment image</p>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 1rem; font-style: italic;">${weapon.description}</p>
+                <div class="attach-code-box">
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Gunsmith Code</span>
+                        <span class="code-text" style="font-size: 1rem;">${weapon.code}</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode('${weapon.name}', '${weapon.code}', this, event)">
+                        <span>Copy Code</span>
+                    </button>
+                </div>
+            `;
+            
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAttachModal(event) {
+            if (event && event.target !== document.getElementById('attachOverlay')) return;
+            const overlay = document.getElementById('attachOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function openBottomSheet(weapon) {
@@ -2194,9 +2452,14 @@
             const isFav = favorites.includes(weapon.name);
             const imgFallback = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'><rect fill='%231a1a1a' width='400' height='250'/><text fill='%23ff6b9d' x='50%' y='50%' text-anchor='middle' font-family='sans-serif' font-size='20'>${encodeURIComponent(weapon.name)}</text></svg>`;
             
+            const attachBtn = weapon.attachment ? 
+                `<button onclick="closeBottomSheet(); openAttachModal('${weapon.name}'); event.stopPropagation();" class="copy-btn" style="width: 100%; justify-content: center; background: var(--secondary); margin-bottom: 0.5rem;">
+                    &#128269; View Attachments
+                </button>` : '';
+            
             content.innerHTML = `
                 <h2 style="color: var(--primary); margin-bottom: 0.5rem;">${weapon.name}</h2>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">${weapon.type.toUpperCase()} • ${weapon.season}</p>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">${weapon.type.toUpperCase()} &bull; ${weapon.season}</p>
                 <img src="${weapon.image}" 
                      style="width: 100%; border-radius: 10px; margin-bottom: 1rem; max-height: 200px; object-fit: cover;" 
                      onerror="this.onerror=null; this.src='${imgFallback}'; this.style.display='none'"
@@ -2204,16 +2467,17 @@
                      loading="lazy"
                      decoding="async">
                 <p style="margin-bottom: 1.5rem; font-style: italic;">${weapon.description}</p>
+                ${attachBtn}
                 <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
                     <button onclick="copyCode('${weapon.name}', '${weapon.code}', this, event); event.stopPropagation();" class="copy-btn" style="flex: 1; justify-content: center;" ${!weapon.code ? 'disabled' : ''}>
-                        📋 Copy Name + Code
+                        &#128203; Copy Name + Code
                     </button>
                     <button onclick="toggleFavorite('${weapon.name}', this); event.stopPropagation();" class="copy-btn ${isFav ? 'active' : ''}" style="flex: 1; justify-content: center; background: ${isFav ? '#e74c3c' : 'var(--primary)'};">
-                        ${isFav ? '❤️ Favorited' : '🤍 Add to Favorites'}
+                        ${isFav ? '&#10084;&#65039; Favorited' : '&#129293; Add to Favorites'}
                     </button>
                 </div>
                 <button onclick="shareWeapon('${weapon.name}', '${weapon.code}'); event.stopPropagation();" class="copy-btn" style="width: 100%; justify-content: center; background: var(--secondary);">
-                    📤 Share Loadout
+                    &#128228; Share Loadout
                 </button>
             `;
             
@@ -2337,7 +2601,7 @@
                 favorites = favorites.filter(f => f !== weaponName);
                 favoriteCounts[weaponName] = (favoriteCounts[weaponName] || 1) - 1;
                 if (btn) {
-                    btn.innerHTML = '🤍';
+                    btn.innerHTML = '&#129293;';
                     btn.classList.remove('active');
                 }
                 showToast('Removed from favorites');
@@ -2345,7 +2609,7 @@
                 favorites.push(weaponName);
                 favoriteCounts[weaponName] = (favoriteCounts[weaponName] || 0) + 1;
                 if (btn) {
-                    btn.innerHTML = '❤️';
+                    btn.innerHTML = '&#10084;&#65039;';
                     btn.classList.add('active');
                 }
                 showToast('Added to favorites!');
@@ -2369,19 +2633,19 @@
             const content = document.getElementById('bottomSheetContent');
             
             let html = `
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">❤️ Your Favorites (${favWeapons.length})</h2>
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">&#10084;&#65039; Your Favorites (${favWeapons.length})</h2>
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
             `;
             
             favWeapons.forEach(weapon => {
                 html += `
                     <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255, 107, 157, 0.1); border-radius: 10px; cursor: pointer;" onclick="closeBottomSheet(); document.querySelector('[data-name=\'${weapon.name}\']').scrollIntoView({behavior: 'smooth', block: 'center'});">
-                        <div style="font-size: 1.5rem;">🔫</div>
+                        <div style="font-size: 1.5rem;">&#128299;</div>
                         <div style="flex: 1;">
                             <div style="font-weight: 700; color: var(--text);">${weapon.name}</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted);">${weapon.type.toUpperCase()} • ${weapon.code}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">${weapon.type.toUpperCase()} &bull; ${weapon.code}</div>
                         </div>
-                        <button onclick="event.stopPropagation(); toggleFavorite('${weapon.name}', null); showFavoritesPopup();" style="background: #e74c3c; color: white; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">🗑️</button>
+                        <button onclick="event.stopPropagation(); toggleFavorite('${weapon.name}', null); showFavoritesPopup();" style="background: #e74c3c; color: white; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">&#128465;&#65039;</button>
                     </div>
                 `;
             });
@@ -2457,7 +2721,7 @@
             mobilePerformanceMode = !mobilePerformanceMode;
             localStorage.setItem('mobilePerformanceMode', mobilePerformanceMode);
             applyMobilePerformanceMode();
-            showToast(mobilePerformanceMode ? 'Performance mode ON 🚀 (Animations reduced)' : 'Performance mode OFF ✨ (Full effects)');
+            showToast(mobilePerformanceMode ? 'Performance mode ON &#128640; (Animations reduced)' : 'Performance mode OFF &#10024; (Full effects)');
         }
         
         function applyMobilePerformanceMode() {
@@ -2542,7 +2806,7 @@
             // Show feedback
             if (copied) {
                 const originalText = btn.innerHTML;
-                btn.innerHTML = '<span>✓ Copied!</span>';
+                btn.innerHTML = '<span>&#10003; Copied!</span>';
                 btn.classList.add('copied');
                 
                 showToast(`${gunName} copied!`);
@@ -2614,13 +2878,6 @@
                 toast.classList.remove('show');
             }, 2500);
         }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeBottomSheet();
-                closeEaster();
-            }
-        });
 
         // Unregister service workers
         if ('serviceWorker' in navigator) {
